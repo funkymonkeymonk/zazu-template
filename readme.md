@@ -1,5 +1,13 @@
-## Zazu Template
+## Zazu Todoist
 
-[![Build Status](https://travis-ci.org/tinytacoteam/zazu-template.svg?branch=master)](https://travis-ci.org/tinytacoteam/zazu-template)
+Zazu integration with Todoist.
 
-Zazu Template for starting your own plugin.
+####.zazurc.json configuration
+```
+{
+   "name": "funkymonkeymonk/zazu-todoist",
+   "variables": {
+     "token": "YOUR_TODOIST_API_TOKEN_HERE"
+   }
+},
+```

@@ -1,44 +1,79 @@
 {
-  "name": "zazu-template",
-  "version": "1.0.0",
-  "description": "Zazu Template for starting your own plugin.",
+  "name": "zazu-todoist",
+  "version": "0.0.1",
+  "description": "Zazu integration with Todoist.",
   "blocks": {
     "input": [
       {
-        "id": "template",
+        "id": "todo-open",
         "type": "Keyword",
-        "keyword": "template",
-        "title": "Zazu Template",
-        "subtitle": "Goto Zazu Template GitHub Repo",
-        "icon": "fa-files-o",
-        "connections": [
-          "GoHome"
-        ]
+        "keyword": "todoist",
+        "title": "Open Todoist",
+        "subtitle": "Open todoist in your default browser",
+        "icon": "fa-check-square-o",
+        "connections": ["Todoist"]
       },
       {
-        "id": "hello",
+        "id": "todo-open",
         "type": "Keyword",
-        "keyword": "hello",
-        "title": "Hello!",
-        "subtitle": "Please type your name!",
-        "icon": "fa-hand-spock-o",
-        "connections": ["GoHome"]
+        "keyword": "todo",
+        "title": "Open Todoist",
+        "subtitle": "Open todoist in your default  browser",
+        "icon": "fa-check-square-o",
+        "connections": ["Todoist"]
       },
       {
-        "id": "hello-name",
+        "id": "todo-thanks",
+        "type": "Keyword",
+        "keyword": "todo thanks",
+        "title": "You're welcome!",
+        "subtitle": "Check out the github repo.",
+        "icon": "fa-check-square-o",
+        "connections": ["OpenRepo"]
+      },
+      {
+        "id": "todo-thanks",
+        "type": "Keyword",
+        "keyword": "thanks todo",
+        "title": "You're welcome!",
+        "subtitle": "Check out the github repo.",
+        "icon": "fa-check-square-o",
+        "connections": ["OpenRepo"]
+      },
+      {
+        "id": "todo-list",
         "type": "PrefixScript",
-        "prefix": "hello",
+        "prefix": "todo list",
         "space": true,
-        "args": "Required",
-        "script": "src/hello.js",
-        "connections": ["GoHome"]
+        "args": "Optional",
+        "script": "src/list.js",
+        "connections": ["DisplayList"]
+      },
+      {
+        "id": "todo-list",
+        "type": "PrefixScript",
+        "prefix": "todoist list",
+        "space": true,
+        "args": "Optional",
+        "script": "src/list.js",
+        "connections": ["DisplayList"]
       }
     ],
     "output": [
       {
-        "id": "GoHome",
+        "id": "OpenTodoist",
         "type": "OpenInBrowser",
-        "url": "https://github.com/tinytacoteam/zazu-template"
+        "url": "https://todoist.com/"
+      },
+      {
+        "id": "OpenRepo",
+        "type": "OpenInBrowser",
+        "url": "https://github.com/funkymonkeymonk/zazu-todoist"
+      },
+      {
+        "id": "DisplayList",
+        "type": "Preview",
+        "message": "List Mock\ntodo 1\ntodo 2\ntodo 3"
       }
     ]
   }
