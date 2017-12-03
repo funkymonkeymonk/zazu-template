@@ -73,7 +73,7 @@
       {
         "id": "DisplayList",
         "type": "Preview",
-        "message": "List Mock\ntodo 1\ntodo 2\ntodo 3"
+        "message": "{value}"
       }
     ]
   }

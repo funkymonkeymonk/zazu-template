@@ -14,18 +14,17 @@ module.exports = (pluginContext) => {
   return (projectString, { token }) => {
     return getProjects(token)
       .then(projects => {
-        const value = {}
-        value.projects = projects
         if (projects.length > 0) {
-          value.projectName = Fuzzy.filter(projectString, value.projects)[0].original
-          value.todo = ['todo1']
-          response.title = `Current: ${value.todo[0]}`
-          response.subtitle = `View ${value.projectName} full list`
+          const projectName = Fuzzy.filter(projectString, projects)[0].original
+          const todos = ['todo1', 'todo2', 'todo3']
+          response.title = `Current: ${todos[0]}`
+          response.subtitle = `View ${projectName} full list`
+          response.value = todos.join('\n')
         } else {
           response.title = 'No projects found'
           response.subtitle = ''
+          response.value = 'No projects found'
         }
-        response.value = value
         return [response]
       })
   }
