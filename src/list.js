@@ -1,13 +1,23 @@
 const Fuzzy = require('fuzzy')
 const Todoist = require('./todoist')
 
-const getProjects = (token) => {
-  return Todoist.getProjects(token)
-    .then(projects => projects.map(project => project.name))
+const display = (title = '', subtitle = '', value = '') => {
+  const output = {
+    icon: 'fa-check-square-o',
+    title,
+    subtitle,
+    value,
+  }
+
+  return output
 }
 
-const response = {
-  icon: 'fa-check-square-o',
+const getProjects = (token) => {
+  return Todoist.getProjects(token)
+}
+
+const getItemsIn = (project, token) => {
+  return Todoist.getTasksIn(project, token)
 }
 
 module.exports = (pluginContext) => {
@@ -15,17 +25,33 @@ module.exports = (pluginContext) => {
     return getProjects(token)
       .then(projects => {
         if (projects.length > 0) {
-          const projectName = Fuzzy.filter(projectString, projects)[0].original
-          const todos = ['todo1', 'todo2', 'todo3']
-          response.title = `Current: ${todos[0]}`
-          response.subtitle = `View ${projectName} full list`
-          response.value = todos.join('\n')
-        } else {
-          response.title = 'No projects found'
-          response.subtitle = ''
-          response.value = 'No projects found'
+          var options = {
+            pre: '',
+            post: '',
+            extract: (project) => project.name,
+          }
+          const project = Fuzzy.filter(projectString, projects, options)[0].original
+          return getItemsIn(project, token)
         }
-        return [response]
+
+        const outputs = [
+          display('No projects fould', '', 'No projects found'),
+        ]
+        return {outputs}
+      })
+      .then(result => {
+        if (!result.project) return result.outputs
+
+        const title = result.project.name
+        const subtitle = result.todos[0].content
+
+        // TODO: Still need to figure out how to deal with value
+        // and followup state. Look at clipboard plugin for inspiration.
+        const value = result.project.name + '\n' + result.todos.map(todo => todo.content).join('\n')
+
+        return [
+          display(title, subtitle, value),
+        ]
       })
   }
 }

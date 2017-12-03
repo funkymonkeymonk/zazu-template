@@ -14,12 +14,26 @@ module.exports = {
     const options = {token}
 
     return new Promise((resolve, reject) => axios.get(uri, {params: options})
+      .then(response => resolve(response.data))
+      .catch(error => reject(error.response)))
+  },
+
+  getTasksIn: (project, token) => {
+    const uri = `${apiUrl}/tasks`
+    const options = {
+      token,
+      project_id: project.id,
+    }
+
+    return new Promise((resolve, reject) => axios.get(uri, {params: options})
       .then(response => {
-        // const sync_token = response.data.sync_token
-        resolve(response.data)
+        resolve({
+          project,
+          todos: response.data.map(item => {
+            return {content: item.content}
+          }),
+        })
       })
-      .catch(error => {
-        reject(error.response)
-      }))
+      .catch(error => reject(error.response)))
   },
 }
